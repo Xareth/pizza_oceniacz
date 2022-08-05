@@ -15,6 +15,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var errorMessage = '';
+  var isCreatingAccount = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text('Zaloguj się'),
+                Text(isCreatingAccount ? 'Zarejestruj się' : 'Zaloguj się'),
                 const SizedBox(
                   height: 20,
                 ),
@@ -43,19 +44,55 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    try {
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(
-                          email: widget.emailController.text,
-                          password: widget.passwordController.text);
-                    } catch (error) {
-                      setState(() {
-                        errorMessage = error.toString();
-                      });
+                    if (isCreatingAccount == true) {
+                      try {
+                        await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: widget.emailController.text,
+                                password: widget.passwordController.text);
+                      } catch (error) {
+                        setState(() {
+                          errorMessage = error.toString();
+                        });
+                      }
+                    } else {
+                      try {
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                            email: widget.emailController.text,
+                            password: widget.passwordController.text);
+                      } catch (error) {
+                        setState(() {
+                          errorMessage = error.toString();
+                        });
+                      }
                     }
                   },
-                  child: const Text('Zaloguj się'),
+                  child: Text(
+                      isCreatingAccount ? 'Zarejestruj się' : 'Zaloguj się'),
                 ),
                 Text(errorMessage),
+                const SizedBox(
+                  height: 20,
+                ),
+                if (isCreatingAccount == false) ...[
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isCreatingAccount = true;
+                      });
+                    },
+                    child: const Text('Utwórz konto'),
+                  )
+                ] else ...[
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isCreatingAccount = false;
+                      });
+                    },
+                    child: Text('Masz juz konto? Zaloguj się!'),
+                  )
+                ]
               ]),
         ),
       ),
