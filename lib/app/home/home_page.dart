@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'addopinion/add_opinion_page_content.dart';
+import 'myaccount/myaccount_page_content.dart';
+import 'restaurants/restaurants_page_content.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -19,37 +22,20 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Najlepsza pizza w mieście')),
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
-          return Center(
-            child: Text('Jeden'),
-          );
+          return RestaurantPageContent();
         }
         if (currentIndex == 1) {
-          return Center(
-            child: Text('Dwa'),
-          );
-        } 
-        if (currentIndex == 2) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Jesteś zalogowany jako ${widget.user.email}'),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                    },
-                    child: Text('Wyloguj'))
-              ],
-            ),
-          );
+          return AddOpinionPageContent();
         }
-        else {
-          return Center(child: Text('Wystąpił błąd. Zresetuj aplikację'),)
+        if (currentIndex == 2) {
+          return MyAccountPageContent(email: widget.user.email);
+        } else {
+          return const Center(
+            child: Text('Wystąpił błąd. Zresetuj aplikację'),
+          );
         }
       }),
       bottomNavigationBar: BottomNavigationBar(
