@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pizza_oceniacz/app/cubit/root_cubit.dart';
 
 class MyAccountPageContent extends StatelessWidget {
   const MyAccountPageContent({
@@ -14,14 +15,18 @@ class MyAccountPageContent extends StatelessWidget {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Text('Jesteś zalogowany jako $email'),
+          Text(
+            'Jesteś zalogowany jako $email',
+            textAlign: TextAlign.center,
+          ),
           const SizedBox(
             height: 20,
           ),
           ElevatedButton(
               onPressed: () {
-                FirebaseAuth.instance.signOut();
+                context.read<RootCubit>().singOut();
               },
               child: const Text('Wyloguj'))
         ],
