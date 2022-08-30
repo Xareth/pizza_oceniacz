@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(title: const Text('Najlepsza pizza w mieście')),
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
-          return RestaurantPageContent();
+          return const RestaurantPageContent();
         }
         if (currentIndex == 1) {
           return AddOpinionPageContent(onSave: () {

@@ -6,7 +6,7 @@ class RestaurantsState {
   final bool isLoading;
   final String errorMessage;
 
-  RestaurantsState(
+  const RestaurantsState(
       {required this.documents,
       required this.isLoading,
       required this.errorMessage});
