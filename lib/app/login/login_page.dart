@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                         isCreatingAccount = false;
                       });
                     },
-                    child: Text('Masz juz konto? Zaloguj się!'),
+                    child: const Text('Masz juz konto? Zaloguj się!'),
                   )
                 ]
               ]),
